@@ -1,0 +1,30 @@
+{
+    "PACIENTES": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "data_nascimento": {
+                        "S": "1989-03-19"
+                    },
+                    "email": {
+                        "S": "brunovinicius@mail.com"
+                    },
+                    "nome": {
+                        "S": "Bruno Vinicius"
+                    },
+                    "paciente_id": {
+                        "S": "1234-abc"
+                    },
+                    "status": {
+                        "BOOL": true
+                    },
+                    "telefone": {
+                        "S": "81 999879798799"
+                    }
+                } 
+            }
+        }
+
+    ]
+
+}

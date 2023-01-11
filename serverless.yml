@@ -1,0 +1,85 @@
+service: cadastro-pacientes-23
+
+plugins:
+  - serverless-offline
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+
+# you can overwrite defaults here
+  stage: dev
+  region: us-east-1
+  
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:PutItem
+      - dynamodb:DeleteItem
+      - dynamodb:GetItem
+      - dynamodb:UpdateItem
+    Resource: ############################
+
+
+
+functions:
+  listarPacientes:
+    handler: handler.listarPacientes
+    events:
+      - http:
+          path: pacientes
+          method: get
+
+  criarPaciente:
+    handler: handler.criarPaciente
+    events:
+      - http:
+          path: pacientes
+          method: post 
+
+  atualizarPaciente:
+    handler: handler.atualizarPaciente
+    events:
+      - http:
+          path: pacientes/{pacienteId}
+          method: put
+
+  deletePaciente:
+    handler: handler.deletePaciente
+    events:
+      - http:
+          path: pacientes/{pacienteId}
+          method: delete                            
+
+  listOnePaciente:
+    handler: handler.listOnePaciente
+    events:
+      - http:
+          path: pacientes/{pacienteId}
+          method: get
+
+resources:
+  Resources:
+    PacientesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: PACIENTES
+        AttributeDefinitions:
+          - AttributeName: paciente_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: paciente_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1             
